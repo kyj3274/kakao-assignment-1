@@ -1,0 +1,513 @@
+/* =========================================================
+   Todo Calendar - 스타일
+   구글 캘린더 느낌의 미니멀 디자인
+   색상/간격은 CSS 변수로 관리해 일관성 유지
+   ========================================================= */
+
+:root {
+  /* 색상 팔레트 (구글 캘린더 톤) */
+  --color-primary: #1a73e8;        /* 포인트 블루 */
+  --color-primary-soft: #e8f0fe;   /* 블루 연한 배경 */
+  --color-text: #3c4043;           /* 기본 텍스트 */
+  --color-text-sub: #5f6368;       /* 보조 텍스트 */
+  --color-border: #dadce0;         /* 경계선 */
+  --color-hover: #f1f3f4;          /* 호버 배경 */
+  --color-bg: #ffffff;             /* 기본 배경 */
+  --color-header-bg: #f8f9fa;      /* 상단바 배경(은은한 회색) */
+  --color-sunday: #d93025;         /* 일요일(빨강) */
+
+  /* 레이아웃 크기 */
+  --header-height: 64px;
+  --sidebar-width: 256px;
+}
+
+/* 기본 리셋 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Roboto", "Apple SD Gothic Neo", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Malgun Gothic", sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 공통: 아이콘 버튼 (동그란 호버 효과) */
+.icon-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-sub);
+  font-size: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.icon-button:hover {
+  background: var(--color-hover);
+}
+
+/* =========================================================
+   상단 헤더
+   ========================================================= */
+.app-header {
+  height: var(--header-height);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-header-bg);
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 로고 영역 */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 8px 0 4px;
+}
+
+.brand-logo {
+  font-size: 22px;
+}
+
+.brand-title {
+  font-size: 22px;
+  color: var(--color-text-sub);
+  font-weight: 400;
+}
+
+/* '오늘' 버튼 */
+.today-button {
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-radius: 18px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.today-button:hover {
+  background: var(--color-hover);
+}
+
+/* 월 이동 화살표 묶음 */
+.nav-arrows {
+  display: flex;
+}
+
+/* 현재 연/월 라벨 */
+.period-label {
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-text);
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+/* 검색 박스 */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+.search-icon {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  width: 140px;
+  color: var(--color-text);
+}
+
+/* 보기 전환 (월/주/일) */
+.view-switch {
+  display: flex;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.view-button {
+  height: 36px;
+  padding: 0 14px;
+  border: none;
+  background: var(--color-bg);
+  color: var(--color-text-sub);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.view-button:hover {
+  background: var(--color-hover);
+}
+
+.view-button.is-active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+/* =========================================================
+   본문 레이아웃 (사이드바 + 캘린더)
+   ========================================================= */
+.app-body {
+  flex: 1;
+  display: flex;
+  min-height: 0; /* 자식 스크롤 영역이 넘치지 않도록 */
+}
+
+/* ---------------- 사이드바 ---------------- */
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  padding: 16px;
+  border-right: 1px solid var(--color-border);
+  overflow-y: auto;
+}
+
+/* '만들기' 버튼 */
+.create-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 22px 0 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.15);
+  transition: box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.create-button:hover {
+  background: var(--color-hover);
+  box-shadow: 0 1px 5px rgba(60, 64, 67, 0.25);
+}
+
+.create-plus {
+  font-size: 22px;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+/* ---------------- 미니 달력 ---------------- */
+.mini-calendar {
+  margin-top: 24px;
+}
+
+.mini-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.mini-period {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.mini-nav {
+  display: flex;
+}
+
+/* 미니 달력의 화살표는 더 작게 */
+.mini-arrow {
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+}
+
+/* 미니 달력 요일/날짜 공통 7열 격자 */
+.mini-weekdays,
+.mini-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.mini-weekday {
+  text-align: center;
+  font-size: 11px;
+  color: var(--color-text-sub);
+  padding: 4px 0;
+}
+
+/* 미니 달력 날짜 한 칸 */
+.mini-day {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--color-text);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.mini-day:hover {
+  background: var(--color-hover);
+}
+
+/* 이번 달이 아닌 날짜(흐리게) */
+.mini-day.is-other-month {
+  color: #bdc1c6;
+}
+
+/* 오늘 날짜 (파란 원) */
+.mini-day.is-today {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* ---------------- 라벨(카테고리) ---------------- */
+.label-list {
+  margin-top: 28px;
+}
+
+.label-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.label-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--color-text);
+  padding: 6px 0;
+  cursor: pointer;
+}
+
+/* 카테고리 색상 점 */
+.label-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--dot-color, #999);
+}
+
+/* =========================================================
+   메인 캘린더 (월간 격자)
+   ========================================================= */
+.calendar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* 요일 헤더 행 (일~토) */
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.calendar-weekday {
+  text-align: right;
+  padding: 8px 12px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--color-text-sub);
+}
+
+/* 날짜 격자: 6주 분량을 세로로 균등 분할 */
+.calendar-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 1fr;
+}
+
+/* 날짜 한 칸 */
+.calendar-cell {
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* 각 줄의 마지막 칸은 오른쪽 경계선 제거 */
+.calendar-cell:nth-child(7n) {
+  border-right: none;
+}
+
+/* 날짜 숫자 */
+.cell-date {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--color-text);
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+/* 이번 달이 아닌 날짜(흐리게) */
+.calendar-cell.is-other-month .cell-date {
+  color: #bdc1c6;
+}
+
+/* 일요일 숫자(빨강) */
+.calendar-cell.is-sunday .cell-date {
+  color: var(--color-sunday);
+}
+
+/* 오늘 날짜 (파란 원) */
+.calendar-cell.is-today .cell-date {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* 칸 호버 시 살짝 강조 */
+.calendar-cell:hover {
+  background: #fafafb;
+}
+
+/* =========================================================
+   타임그리드 (주 보기 / 일 보기 공용)
+   --day-count: 날짜 칸 개수 (주=7, 일=1) — JS가 주입
+   ========================================================= */
+.timegrid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* 상단 날짜 헤더 행: [시간칸 너비] + 날짜 칸들 */
+.timegrid-head {
+  display: grid;
+  grid-template-columns: 56px repeat(var(--day-count), 1fr);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* 시간 칸 위쪽의 빈 모서리 */
+.timegrid-corner {
+  border-right: 1px solid var(--color-border);
+}
+
+/* 날짜 헤더 한 칸 (요일 + 날짜 숫자) */
+.tg-dayhead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 0 10px;
+  border-left: 1px solid var(--color-border);
+}
+
+.dh-weekday {
+  font-size: 11px;
+  color: var(--color-text-sub);
+}
+
+/* 날짜 숫자 (오늘이면 파란 원) */
+.dh-date {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--color-text);
+  border-radius: 50%;
+}
+
+.tg-dayhead.is-today .dh-weekday {
+  color: var(--color-primary);
+}
+
+.tg-dayhead.is-today .dh-date {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* 본문: 세로 스크롤되는 24시간 영역 */
+.timegrid-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* 시간(행) x 칸(열) 격자 — 헤더와 동일한 열 구성으로 정렬 */
+.timegrid-content {
+  display: grid;
+  grid-template-columns: 56px repeat(var(--day-count), 1fr);
+}
+
+/* 왼쪽 시간 라벨 (각 시간 줄 위에 표기) */
+.tg-hour {
+  height: 48px;
+  text-align: right;
+  padding-right: 8px;
+  font-size: 10px;
+  color: var(--color-text-sub);
+  transform: translateY(-6px); /* 시간선 위에 살짝 걸치도록 */
+}
+
+/* 시간 x 날짜가 만나는 한 칸 */
+.tg-cell {
+  height: 48px;
+  border-top: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
+  transition: background 0.1s ease;
+}
+
+.tg-cell:hover {
+  background: #fafafb;
+}

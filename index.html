@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo Calendar</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===== 상단 헤더 바 (구글 캘린더 상단 영역) ===== -->
+  <header class="app-header">
+    <!-- 헤더 왼쪽: 메뉴 / 로고 / 오늘 / 월 이동 / 현재 기간 -->
+    <div class="header-left">
+      <button class="icon-button" id="menuButton" aria-label="메뉴 열기">☰</button>
+
+      <div class="brand">
+        <span class="brand-logo">📅</span>
+        <span class="brand-title">Todo</span>
+      </div>
+
+      <!-- 오늘로 이동 -->
+      <button class="today-button" id="todayButton">오늘</button>
+
+      <!-- 이전 달 / 다음 달 이동 -->
+      <div class="nav-arrows">
+        <button class="icon-button" id="prevButton" aria-label="이전 달">‹</button>
+        <button class="icon-button" id="nextButton" aria-label="다음 달">›</button>
+      </div>
+
+      <!-- 현재 보고 있는 연/월 (JS가 채워줌) -->
+      <h1 class="period-label" id="periodLabel">2026년 6월</h1>
+    </div>
+
+    <!-- 헤더 오른쪽: 검색 / 보기 전환 / 설정 -->
+    <div class="header-right">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" placeholder="검색" />
+      </div>
+
+      <!-- 보기 전환 (월/주/일) — data-view 값으로 보기 모드 구분 -->
+      <div class="view-switch" id="viewSwitch">
+        <button class="view-button is-active" data-view="month">월</button>
+        <button class="view-button" data-view="week">주</button>
+        <button class="view-button" data-view="day">일</button>
+      </div>
+
+      <button class="icon-button" aria-label="설정">⚙️</button>
+    </div>
+  </header>
+
+  <!-- ===== 본문: 좌측 사이드바 + 우측 캘린더 ===== -->
+  <div class="app-body">
+    <!-- 좌측 사이드바 -->
+    <aside class="sidebar">
+      <!-- 할 일 만들기 버튼 (구글 캘린더의 '만들기' 느낌) -->
+      <button class="create-button" id="createButton">
+        <span class="create-plus">＋</span>
+        <span>만들기</span>
+      </button>
+
+      <!-- 사이드바 미니 달력 -->
+      <section class="mini-calendar">
+        <div class="mini-header">
+          <span class="mini-period" id="miniPeriodLabel">2026년 6월</span>
+          <div class="mini-nav">
+            <button class="icon-button mini-arrow" id="miniPrevButton" aria-label="이전 달">‹</button>
+            <button class="icon-button mini-arrow" id="miniNextButton" aria-label="다음 달">›</button>
+          </div>
+        </div>
+        <!-- 요일 헤더 -->
+        <div class="mini-weekdays" id="miniWeekdays"></div>
+        <!-- 날짜 격자 (JS가 채워줌) -->
+        <div class="mini-days" id="miniDays"></div>
+      </section>
+
+      <!-- 카테고리(라벨) 영역 — 지금은 디자인용 자리 -->
+      <section class="label-list">
+        <h2 class="label-title">내 목록</h2>
+        <label class="label-item">
+          <input type="checkbox" checked />
+          <span class="label-dot" style="--dot-color:#1a73e8"></span>
+          할 일
+        </label>
+        <label class="label-item">
+          <input type="checkbox" checked />
+          <span class="label-dot" style="--dot-color:#34a853"></span>
+          개인
+        </label>
+        <label class="label-item">
+          <input type="checkbox" checked />
+          <span class="label-dot" style="--dot-color:#fbbc04"></span>
+          업무
+        </label>
+      </section>
+    </aside>
+
+    <!-- 우측 메인 캘린더 — 보기 모드(월/주/일)에 따라 JS가 내용을 그려줌 -->
+    <main class="calendar" id="calendarView"></main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
