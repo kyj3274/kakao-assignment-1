@@ -15,14 +15,6 @@ const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 // 타임그리드에서 사용할 0~23시 배열
 const HOURS = Array.from({ length: 24 }, (_, hour) => hour);
 
-// 분류별 색상 (사이드바 카테고리 팔레트와 동일)
-const CATEGORY_COLORS = {
-  "할 일": "#1a73e8",
-  개인: "#34a853",
-  업무: "#fbbc04",
-};
-const DEFAULT_CATEGORY = "할 일";
-
 // 일정 저장에 사용할 localStorage 키
 const STORAGE_KEY = "todo-calendar.todos";
 // 보기 상태(보기 모드 + 기준 날짜) 저장에 사용할 localStorage 키
@@ -284,7 +276,6 @@ function buildWeekDays(baseDate) {
 // 캘린더 위에 얹는 일정 칩 생성 (클릭 시 수정 모달 열림)
 function buildEventChip(todo) {
   const chip = createElementWithClass("div", "event-chip");
-  chip.style.setProperty("--chip-color", CATEGORY_COLORS[todo.category] || CATEGORY_COLORS[DEFAULT_CATEGORY]);
   if (todo.done) chip.classList.add("is-done"); // 완료된 일정은 흐리게 + 취소선
 
   const time = createElementWithClass("span", "chip-time");
@@ -694,17 +685,11 @@ function submitModal() {
     return;
   }
 
-  // 분류 입력은 없앴으므로, 수정 시엔 기존 분류 유지 / 추가 시엔 기본 분류 사용
-  const editingTodo = editingTodoId
-    ? todos.find((todo) => todo.id === editingTodoId)
-    : null;
-
   const data = {
     title,
     date: inputDate.value,
     startTime: inputStart.value || "09:00",
     endTime: inputEnd.value || "10:00",
-    category: editingTodo ? editingTodo.category : DEFAULT_CATEGORY,
   };
 
   if (editingTodoId) {

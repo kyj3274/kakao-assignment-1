@@ -467,7 +467,6 @@ body {
 
 /* =========================================================
    일정 칩 (캘린더 위에 얹히는 이벤트)
-   --chip-color: 분류 색상 — JS가 주입
    ========================================================= */
 /* 월 보기 셀 안 일정들을 담는 영역 (넘치면 숨김) */
 .cell-events {
@@ -485,7 +484,7 @@ body {
   gap: 4px;
   padding: 2px 6px;
   border-radius: 4px;
-  background: var(--chip-color, var(--color-primary));
+  background: var(--color-primary);
   color: #fff;
   font-size: 11px;
   line-height: 1.4;
