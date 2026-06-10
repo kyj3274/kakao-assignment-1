@@ -19,7 +19,7 @@ import {
   ★ 여기 모여 있는 상태(useState / useLocalStorage) ★
   - todos     : 할 일 목록 (localStorage에 저장 → 새로고침해도 유지)
   - focusDate : 지금 화면이 보고 있는 기준 날짜 (localStorage에 저장 → 새로고침해도 유지)
-  - viewMode  : 보기 모드 'month' | 'week' | 'day'
+  - viewMode  : 보기 모드 'month' | 'week' | 'day' (localStorage에 저장 → 새로고침해도 유지)
   - filter    : 사이드바 목록 필터 'all' | 'upcoming' | 'inProgress' | 'completed'
   - modal     : 등록/수정 모달 상태 (null이면 닫힌 상태)
 
@@ -37,7 +37,9 @@ function App() {
   useEffect(() => {
     localStorage.setItem('focusDate', toDateKey(focusDate))
   }, [focusDate])
-  const [viewMode, setViewMode] = useState('month')
+  // viewMode 는 그냥 문자열이라 useLocalStorage 훅을 그대로 재사용해요.
+  // → 주/일을 보다 새로고침해도 월간뷰로 튕기지 않고 보던 보기 모드가 유지돼요.
+  const [viewMode, setViewMode] = useLocalStorage('viewMode', 'month')
   const [filter, setFilter] = useState('all')
 
   // modal === null 이면 닫힘. 열려 있으면 { editingId, draft } 모양.
